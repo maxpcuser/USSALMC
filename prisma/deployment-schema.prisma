@@ -1,0 +1,69 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model DeploymentEnvironment {
+  id              Int      @id @default(autoincrement())
+  name            String   @unique
+  environmentType String
+  status          String   @default("active")
+  configuration   Json
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model DeploymentRelease {
+  id            Int      @id @default(autoincrement())
+  version       String   @unique
+  releaseType   String
+  status        String   @default("pending")
+  gitCommit     String
+  releaseNotes  String?
+  deployedAt    DateTime?
+  createdAt     DateTime @default(now())
+}
+
+model DeploymentJob {
+  id          Int      @id @default(autoincrement())
+  jobType     String
+  status      String   @default("pending")
+  startedAt   DateTime
+  completedAt DateTime?
+  result      Json
+  createdAt   DateTime @default(now())
+}
+
+model InfrastructureNode {
+  id            Int      @id @default(autoincrement())
+  hostname      String   @unique
+  nodeType      String
+  status        String   @default("active")
+  ipAddress     String?
+  metadata      Json
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model ServiceHealth {
+  id              Int      @id @default(autoincrement())
+  serviceName     String
+  status          String
+  responseTime    Int?
+  lastCheckAt     DateTime @default(now())
+}
+
+model ReleaseAudit {
+  id          Int      @id @default(autoincrement())
+  releaseId   Int
+  action      String
+  result      String
+  details     Json
+  createdAt   DateTime @default(now())
+  release     DeploymentRelease @relation(fields: [releaseId], references: [id])
+}

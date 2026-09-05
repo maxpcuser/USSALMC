@@ -1,0 +1,28 @@
+
+{
+  "name": "@ussa/discord-bot",
+  "version": "1.0.0",
+  "description": "USSA Discord Knowledge Bot",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "ussa",
+    "knowledge"
+  ],
+  "author": "USSA Development Team",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^14.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "ts-node": "^10.9.1"
+  }
+}

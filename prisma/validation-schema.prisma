@@ -1,0 +1,61 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ValidationRun {
+  id            Int      @id @default(autoincrement())
+  name          String
+  validationType String
+  status        String   @default("pending")
+  startedAt     DateTime?
+  completedAt   DateTime?
+  durationMs    Int?
+  resultSummary Json
+  createdAt     DateTime @default(now())
+}
+
+model ValidationSuite {
+  id           Int      @id @default(autoincrement())
+  name         String
+  description  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  validationRuns ValidationRun[]
+}
+
+model ValidationResult {
+  id           Int      @id @default(autoincrement())
+  validationRunId Int
+  testName     String
+  status       String   @default("pending")
+  result       Json
+  durationMs   Int?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  validationRun ValidationRun @relation(fields: [validationRunId], references: [id])
+}
+
+model SystemBenchmark {
+  id           Int      @id @default(autoincrement())
+  name         String
+  benchmarkType String
+  value        Float
+  unit         String
+  timestamp    DateTime @default(now())
+  createdAt    DateTime @default(now())
+}
+
+model ReadinessReport {
+  id           Int      @id @default(autoincrement())
+  name         String
+  status       String   @default("pending")
+  reportData   Json
+  verifiedAt   DateTime?
+  createdAt    DateTime @default(now())
+}

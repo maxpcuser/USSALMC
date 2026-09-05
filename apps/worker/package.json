@@ -1,0 +1,12 @@
+{
+  "name": "ussa-lore-master-knowledge-worker",
+  "version": "1.0.0",
+  "description": "Worker service for USSA Lore Master Knowledge Core",
+  "private": true,
+  "scripts": {
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1"
+  }
+}

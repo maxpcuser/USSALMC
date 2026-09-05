@@ -1,0 +1,67 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model LoadTest {
+  id              Int      @id @default(autoincrement())
+  name            String
+  scenarioType    String
+  targetSystem    String
+  status          String   @default("pending")
+  startedAt       DateTime?
+  completedAt     DateTime?
+  results         Json
+  createdAt       DateTime @default(now())
+}
+
+model LoadScenario {
+  id                Int      @id @default(autoincrement())
+  name              String
+  description       String?
+  virtualUsers      Int
+  durationMinutes   Int
+  rampUpTime        Int?
+  configuration     Json
+  createdAt         DateTime @default(now())
+}
+
+model BenchmarkRun {
+  id              Int      @id @default(autoincrement())
+  benchmarkType   String
+  status          String   @default("pending")
+  executionTimeMs Int?
+  throughput      Float?
+  results         Json
+  createdAt       DateTime @default(now())
+}
+
+model StressTestRun {
+  id                Int      @id @default(autoincrement())
+  targetSystem      String
+  breakingPoint     String?
+  resourceUsage     Json
+  results           Json
+  createdAt         DateTime @default(now())
+}
+
+model PerformanceMetric {
+  id             Int      @id @default(autoincrement())
+  metricType     String
+  metricValue    Float
+  resourceType   String
+  capturedAt     DateTime @default(now())
+}
+
+model CapacityReport {
+  id                Int      @id @default(autoincrement())
+  reportName        String
+  summary           Json
+  recommendations   Json
+  generatedAt       DateTime @default(now())
+}

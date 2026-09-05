@@ -1,0 +1,146 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://prismedb.com/docs/reference/crud
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
+  password String
+  name     String?
+  role     String   @default("user")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Document {
+  id           Int      @id @default(autoincrement())
+  title        String
+  content      String
+  authorId     Int
+  tags         String[]
+  isPublic     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  author       User     @relation(fields: [authorId], references: [id])
+}
+
+model KnowledgeEntity {
+  id          Int      @id @default(autoincrement())
+  name        String
+  type        String
+  description String?
+  content     String
+  createdById Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdBy   User     @relation(fields: [createdById], references: [id])
+}
+
+model KnowledgeTemplate {
+  id           Int      @id @default(autoincrement())
+  name         String
+  content      String
+  description  String?
+  createdBy    User     @relation(fields: [createdById], references: [id])
+  createdById  Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Chunk {
+  id           Int      @id @default(autoincrement())
+  content      String
+  embedding    Json
+  documentId   Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  document     Document @relation(fields: [documentId], references: [id])
+}
+
+model SearchRecord {
+  id          Int      @id @default(autoincrement())
+  query       String
+  results     Json
+  userId      Int?
+  createdAt   DateTime @default(now())
+  user        User?    @relation(fields: [userId], references: [id])
+}
+
+model BackupJob {
+  id            Int      @id @default(autoincrement())
+  name          String
+  backupType    String
+  status        String
+  archiveId     String?
+  startedAt     DateTime
+  completedAt   DateTime?
+  durationMs    Int?
+  sizeBytes     Int?
+  errorMessage  String?
+  createdAt     DateTime @default(now())
+}
+
+model BackupArchive {
+  id                Int      @id @default(autoincrement())
+  archiveName       String
+  archiveType       String
+  archiveVersion    String
+  storageLocation   String
+  checksum          String
+  sizeBytes         Int
+  createdAt         DateTime @default(now())
+}
+
+model RestoreJob {
+  id            Int      @id @default(autoincrement())
+  archiveId     String
+  status        String
+  startedAt     DateTime
+  completedAt   DateTime?
+  durationMs    Int?
+  errorMessage  String?
+  createdAt     DateTime @default(now())
+}
+
+model RestorePoint {
+  id                 Int      @id @default(autoincrement())
+  name               String
+  description        String?
+  backupArchiveId    String
+  createdAt          DateTime @default(now())
+}
+
+model IntegrityCheck {
+  id           Int      @id @default(autoincrement())
+  checkType    String
+  status       String
+  result       Json
+  executedAt   DateTime @default(now())
+}
+
+model MigrationRecord {
+  id              Int      @id @default(autoincrement())
+  migrationType   String
+  sourceSystem    String
+  targetSystem    String
+  status          String
+  details         Json?
+  startedAt       DateTime
+  completedAt     DateTime?
+}
+
+model RecoveryEvent {
+  id           Int      @id @default(autoincrement())
+  eventType    String
+  severity     String
+  details      Json
+  occurredAt   DateTime @default(now())
+}

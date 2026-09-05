@@ -1,0 +1,165 @@
+
+<!-- /apps/desktop-client/src/renderer/index.html - Main HTML Page -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>USSA Knowledge Core Desktop Client</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+      }
+      
+      .header {
+        background-color: #003366;
+        color: white;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .search-container {
+        margin: 2rem;
+        padding: 1rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      
+      .search-box {
+        display: flex;
+        gap: 0.5rem;
+      }
+      
+      .search-box input {
+        flex-grow: 1;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      
+      .search-box button {
+        padding: 0.5rem 1rem;
+        background-color: #003366;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      
+      .content {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 1rem;
+        padding: 1rem 2rem;
+      }
+      
+      .sidebar {
+        background: white;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      
+      .main-content {
+        background: white;
+        border-radius: 8px;
+        padding: 1rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      
+      .entity-card {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 4px;
+        background: #f9f9f9;
+        cursor: pointer;
+      }
+      
+      .entity-card:hover {
+        background: #e9e9e9;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>USSA Knowledge Core</h1>
+      <div>
+        <span id="status">Connected</span>
+      </div>
+    </div>
+    
+    <div class="search-container">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search knowledge base...">
+        <button onclick="performSearch()">Search</button>
+      </div>
+    </div>
+    
+    <div class="content">
+      <div class="sidebar">
+        <h3>Quick Access</h3>
+        <div class="entity-card" onclick="showContext('mission-control')">
+          Mission Control Center
+        </div>
+        <div class="entity-card" onclick="showContext('project-alpha')">
+          Project Alpha
+        </div>
+        <div class="entity-card" onclick="showContext('operational-hub')">
+          Operational Hub
+        </div>
+      </div>
+      
+      <div class="main-content">
+        <h2>Dashboard</h2>
+        <p>Welcome to the USSA Knowledge Core Desktop Client. This application provides access to your organization's knowledge base.</p>
+        
+        <div id="resultsContainer">
+          <div style="text-align: center; padding: 2rem; color: #666;">
+            Enter a search query above to begin exploring the knowledge base.
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script>
+      function performSearch() {
+        const query = document.getElementById('searchInput').value;
+        if (query) {
+          console.log('Searching for:', query);
+          // In real implementation, this would make an API call
+          document.getElementById('resultsContainer').innerHTML = `
+            <h3>Search Results for "${query}"</h3>
+            <div class="entity-card">
+              <strong>Result 1:</strong> Sample search result content for your query.
+            </div>
+            <div class="entity-card">
+              <strong>Result 2:</strong> Another sample result from the knowledge base.
+            </div>
+          `;
+        }
+      }
+      
+      function showContext(entityId) {
+        console.log('Showing context for:', entityId);
+        // In real implementation, this would make an API call to get contextual information
+        document.getElementById('resultsContainer').innerHTML = `
+          <h3>Context: ${entityId.toUpperCase()}</h3>
+          <p>Contextual information about ${entityId} in the USSA knowledge base...</p>
+          <div style="margin-top: 1rem; padding: 1rem; background-color: #f0f8ff;">
+            <strong>Relevant Entities:</strong>
+            <ul>
+              <li>Entity A related to ${entityId}</li>
+              <li>Entity B related to ${entityId}</li>
+              <li>Entity C related to ${entityId}</li>
+            </ul>
+          </div>
+        `;
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "ussa-lore-master-knowledge-scraper",
+  "version": "1.0.0",
+  "description": "Scraper service for USSA Lore Master Knowledge Core",
+  "private": true,
+  "scripts": {
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "playwright": "^1.35.0"
+  }
+}

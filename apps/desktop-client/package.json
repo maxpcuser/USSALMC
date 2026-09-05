@@ -1,0 +1,29 @@
+
+{
+  "name": "@ussa/desktop-client",
+  "version": "1.0.0",
+  "description": "USSA Desktop Knowledge Core Client",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "electron dist/main.js",
+    "dev": "concurrently "tsc -w" "electron .""
+  },
+  "keywords": [
+    "electron",
+    "desktop",
+    "ussa",
+    "knowledge"
+  ],
+  "author": "USSA Development Team",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^24.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/electron": "^1.0.0",
+    "typescript": "^5.0.0",
+    "concurrently": "^7.6.0"
+  }
+}

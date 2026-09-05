@@ -1,0 +1,23 @@
+{
+  "name": "ussa-lore-master-knowledge-core",
+  "version": "1.0.0",
+  "description": "USSA Lore Master Knowledge Core - Phase 0 Foundation",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "install": "./scripts/install.sh",
+    "start": "./scripts/start.sh",
+    "stop": "./scripts/stop.sh",
+    "update": "./scripts/update.sh"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^8.0.0",
+    "prisma": "^8.0.0-rc.13",
+    "typescript": "^4.9.0"
+  }
+}

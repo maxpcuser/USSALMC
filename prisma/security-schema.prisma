@@ -1,0 +1,108 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AdminUser {
+  id              Int      @id @default(autoincrement())
+  email           String   @unique
+  username        String   @unique
+  displayName     String?
+  passwordHash    String
+  status          String   @default("active")
+  lastLoginAt     DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Role {
+  id              Int      @id @default(autoincrement())
+  name            String   @unique
+  description     String?
+  isSystem        Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Permission {
+  id              Int      @id @default(autoincrement())
+  name            String   @unique
+  description     String?
+  category        String
+  createdAt       DateTime @default(now())
+}
+
+model UserSession {
+  id              Int      @id @default(autoincrement())
+  userId          Int
+  deviceInfo      String?
+  ipAddress       String?
+  expiresAt       DateTime
+  lastActivityAt  DateTime
+  createdAt       DateTime @default(now())
+  user            AdminUser @relation(fields: [userId], references: [id])
+}
+
+model RefreshToken {
+  id              Int      @id @default(autoincrement())
+  userId          Int
+  tokenHash       String   @unique
+  expiresAt       DateTime
+  revokedAt       DateTime?
+  createdAt       DateTime @default(now())
+  user            AdminUser @relation(fields: [userId], references: [id])
+}
+
+model SecretStore {
+  id              Int      @id @default(autoincrement())
+  secretName      String   @unique
+  secretType      String
+  encryptedValue  String
+  rotationDate    DateTime?
+  status          String   @default("active")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model SecurityEvent {
+  id              Int      @id @default(autoincrement())
+  eventType       String
+  severity        String
+  source          String
+  details         Json
+  occurredAt      DateTime @default(now())
+}
+
+model SecurityAlert {
+  id              Int      @id @default(autoincrement())
+  alertType       String
+  severity        String
+  status          String   @default("open")
+  details         Json
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model LoginAttempt {
+  id              Int      @id @default(autoincrement())
+  username        String?
+  ipAddress       String?
+  successful      Boolean
+  failureReason   String?
+  attemptedAt     DateTime @default(now())
+}
+
+model DeviceRegistration {
+  id              Int      @id @default(autoincrement())
+  userId          Int
+  deviceFingerprint String
+  deviceName      String?
+  lastSeen        DateTime
+  createdAt       DateTime @default(now())
+  user            AdminUser @relation(fields: [userId], references: [id])
+}

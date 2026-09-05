@@ -1,0 +1,17 @@
+
+[Unit]
+Description=Knowledge Core Worker Service
+After=network.target
+
+[Service]
+Type=simple
+User=knowledge-core
+Group=knowledge-core
+WorkingDirectory=/opt/knowledge-core
+ExecStart=/usr/bin/node dist/apps/worker/main.js
+Restart=always
+RestartSec=10
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
